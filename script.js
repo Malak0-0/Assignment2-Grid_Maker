@@ -1,22 +1,50 @@
 // Declare global variables
 let numRows = 0;
 let numCols = 0;
-let colorSelected; 
+let colorSelected = "SELECT";
+
 
 // Add a row
 function addR() {
-    alert("Clicked Add Row"); // Replace this line with your code.
+
+    const grid = document.getElementById("grid");
+    const newRow = document.createElement("tr"); // new row at end of table
+
+    if (numCols === 0) {
+        numCols = 1; 
+    }
+
+    // add cells to the new row
+    for (let i = 0; i < numCols; i++) {
+        const newCell = document.createElement("td");
+        newCell.onclick = function() { selectCell(this); }; // Click to change color
+        newRow.appendChild(newCell);
+    }
+
+    grid.appendChild(newRow); // Add new row to the table
+    numRows++; // Update row count
+
 }
+
+// Remove a row
+function removeR() {
+    const grid = document.getElementById("grid");
+    if (numRows > 0) {
+        grid.deleteRow(-1); // remove the last row
+        numRows--;
+        if (numRows === 0) numCols = 0; // col count is 0 if all are removed
+    }
+}
+
+
+
+
 
 // Add a column
 function addC() {
     alert("Clicked Add Col"); // Replace this line with your code.
 }
 
-// Remove a row
-function removeR() {
-    alert("Clicked Remove Row"); // Replace this line with your code.
-}
 
 // Remove a column
 function removeC() {
