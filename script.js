@@ -1,7 +1,7 @@
 // Declare global variables
 let numRows = 0;
 let numCols = 0;
-let colorSelected = "SELECT";
+let colorSelected = "WHITE";
 let grid = document.getElementById("grid");
 
 // Add a row
@@ -34,7 +34,7 @@ function removeR() {
 
 // Add a column
 function addC() {
-// add a new row and a cell if thers no rows
+// add a new row and a cell if theres no rows
 if (numRows === 0) {
     addR();
     return;
@@ -52,20 +52,25 @@ for (let i = 0; i < numRows; i++) {
 // Remove a column
 function removeC() {
     if (numCols === 0) {
-        numRows = 0;
-        while (table.rows.length > 0) {
-            table.deleteRow(0);
-        }
-        return;
+        return; // No columns to remove
     }
+
     numCols--;
-    // delete last cell from each row
-    for (let i = 0; i < table.rows.length; i++) {
-        table.rows[i].deleteCell(-1);
+
+    // Delete the last cell from each row
+    for (let i = 0; i < grid.rows.length; i++) {
+        if (grid.rows[i].cells.length > 0) {
+            grid.rows[i].deleteCell(-1);
+        }
     }
 }
 
-
+// Function to handle cell color filling
+function fillCell(event) {
+    if (colorSelected) { 
+        event.target.style.backgroundColor = colorSelected;
+    }
+}
 
 
 
