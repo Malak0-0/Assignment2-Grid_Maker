@@ -2,54 +2,72 @@
 let numRows = 0;
 let numCols = 0;
 let colorSelected = "SELECT";
-
+let grid = document.getElementById("grid");
 
 // Add a row
 function addR() {
+    let addRow = grid.insertRow();
+    numRows++;
 
-    const grid = document.getElementById("grid");
-    const newRow = document.createElement("tr"); // new row at end of table
-
-    if (numCols === 0) {
-        numCols = 1; 
+    if (numRows === 1 && numCols === 0) {
+        numCols = 1;
     }
 
-    // add cells to the new row
     for (let i = 0; i < numCols; i++) {
-        const newCell = document.createElement("td");
-        newCell.onclick = function() { selectCell(this); }; // Click to change color
-        newRow.appendChild(newCell);
+        let newCell = addRow.insertCell();
+        newCell.addEventListener("click", fillCell, false);
     }
-
-    grid.appendChild(newRow); // Add new row to the table
-    numRows++; // Update row count
-
 }
 
 // Remove a row
 function removeR() {
-    const grid = document.getElementById("grid");
-    if (numRows > 0) {
-        grid.deleteRow(-1); // remove the last row
-        numRows--;
-        if (numRows === 0) numCols = 0; // col count is 0 if all are removed
+    if (numRows === 0) {
+        return;
     }
+    numRows--;
+    grid.deleteRow(-1);
+    if (numRows === 0) {
+        numCols = 0;
+    }
+
 }
-
-
-
-
 
 // Add a column
 function addC() {
-    alert("Clicked Add Col"); // Replace this line with your code.
+// add a new row and a cell if thers no rows
+if (numRows === 0) {
+    addR();
+    return;
+}
+numCols++;
+for (let i = 0; i < numRows; i++) {
+    let row = grid.rows[i]; 
+    let newCell = row.insertCell(); // add a new cell
+    newCell.addEventListener("click", fillCell, false);
+}
+
 }
 
 
 // Remove a column
 function removeC() {
-    alert("Clicked Remove Col"); // Replace this line with your code.
+    if (numCols === 0) {
+        numRows = 0;
+        while (table.rows.length > 0) {
+            table.deleteRow(0);
+        }
+        return;
+    }
+    numCols--;
+    // delete last cell from each row
+    for (let i = 0; i < table.rows.length; i++) {
+        table.rows[i].deleteCell(-1);
+    }
 }
+
+
+
+
 
 // Set global variable for selected color
 function selectColor(){
