@@ -12,22 +12,17 @@ function addR() {
     if (numRows === 1 && numCols === 0) {
         numCols = 1;
     }
-    
-    // add cells to the new row
 
-    for (let i = 0; i < numCols; i++) {
+    for (let i = 0; i < numCols; i++) {  // add cells to the new row
         let newCell = addRow.insertCell();
-        newCell.addEventListener("click", fillCell, false);
+        newCell.addEventListener("click", fillCell);
     }
 }
 
 // Remove a row
 function removeR() {
-    if (numRows === 0) {
-        return;
-    }
-    numRows--;
     grid.deleteRow(-1);
+    numRows--;
     if (numRows === 0) {
         numCols = 0;
     }
@@ -36,16 +31,14 @@ function removeR() {
 
 // Add a column
 function addC() {
-// add a new row and a cell if theres no rows
-if (numRows === 0) {
+if (numRows === 0) {// add a new row and a cell if theres no rows
     addR();
     return;
 }
 numCols++;
-for (let i = 0; i < numRows; i++) {
-    let row = grid.rows[i]; 
-    let newCell = row.insertCell(); // add a new cell
-    newCell.addEventListener("click", fillCell, false);
+for (let i = 0; i < grid.rows.length; i++) {
+    let newCell = grid.rows[i].insertCell(); // add a new cell
+    newCell.addEventListener("click", fillCell);
 }
 
 }
@@ -53,10 +46,7 @@ for (let i = 0; i < numRows; i++) {
 
 // Remove a column
 function removeC() {
-    if (numCols === 0) {
-        return; // No columns to remove
-    }
-
+    if (numCols > 0) {
     numCols--;
 
     // Delete the last cell from each row
@@ -64,6 +54,13 @@ function removeC() {
         if (grid.rows[i].cells.length > 0) {
             grid.rows[i].deleteCell(-1);
         }
+    }
+    if (numCols === 0) {
+        numRows = 0;
+        while (grid.firstChild) {
+            grid.removeChild(grid.firstChild);
+        }}
+
     }
 }
 
@@ -77,23 +74,19 @@ function fillCell(event) {
 // Set global variable for selected color
 function selectColor(){
     colorSelected = document.getElementById("selectedColorId").value;
-    console.log(colorSelected);
 }
 
 
 // Fill all uncolored cells
 function fillU(){
-    for (let i = 0; i < grid.rows.length; i++) {
-        for (let j = 0; j < grid.rows[i].cells.length; j++) {
-            let cell = grid.rows[i].cells[j];
-
+    let cells = grid.getElementsByTagName("td");
+    for (let cell of cells) {
             // only fill cells that have no color or are white
             if (!cell.style.backgroundColor || cell.style.backgroundColor === "white") { 
                 cell.style.backgroundColor = colorSelected; // apply the color selected by user
             }
         }
     }
-}
 
 // Fill all cells
 function fillAll(){
