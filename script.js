@@ -90,21 +90,17 @@ function fillU(){
 
 // Fill all cells
 function fillAll(){
-    for (let i = 0; i < grid.rows.length; i++) { // loop through each row
-        for (let j = 0; j < grid.rows[i].cells.length; j++) { // loops through each cell in a row
-            let cell = grid.rows[i].cells[j];
-            cell.style.backgroundColor = colorSelected; // changes the color of every cell
-        }
+    let cells = grid.getElementsByTagName("td"); // get all cells on the grid
+    for (let cell of cells) {
+        cell.style.backgroundColor = colorSelected; // applies the user selected color each cell
     }
 }
 
 // Clear all cells
 function clearAll(){
-    for (let i = 0; i < grid.rows.length; i++) { // loops  each row
-        for (let j = 0; j < grid.rows[i].cells.length; j++) { // loop through each cell in each row
-            let cell = grid.rows[i].cells[j];
-            cell.style.backgroundColor = "white"; // reset the color to white
-        }
+    let cells = grid.getElementsByTagName("td");
+    for (let cell of cells) {
+        cell.style.backgroundColor = "white"; // reset each cell's color to white
     }
 
 }
