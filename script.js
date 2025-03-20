@@ -12,6 +12,8 @@ function addR() {
     if (numRows === 1 && numCols === 0) {
         numCols = 1;
     }
+    
+    // add cells to the new row
 
     for (let i = 0; i < numCols; i++) {
         let newCell = addRow.insertCell();
@@ -72,22 +74,35 @@ function fillCell(event) {
     }
 }
 
-
-
 // Set global variable for selected color
 function selectColor(){
     colorSelected = document.getElementById("selectedColorId").value;
     console.log(colorSelected);
 }
 
+
 // Fill all uncolored cells
 function fillU(){
-    alert("Clicked Fill All Uncolored"); // Replace this line with your code.
+    for (let i = 0; i < grid.rows.length; i++) {
+        for (let j = 0; j < grid.rows[i].cells.length; j++) {
+            let cell = grid.rows[i].cells[j];
+
+            // only fill cells that have no color or are white
+            if (!cell.style.backgroundColor || cell.style.backgroundColor === "white") { 
+                cell.style.backgroundColor = colorSelected; // apply the color selected by user
+            }
+        }
+    }
 }
 
 // Fill all cells
 function fillAll(){
-    alert("Clicked Fill All"); // Replace this line with your code.
+    for (let i = 0; i < grid.rows.length; i++) { // loop through each row
+        for (let j = 0; j < grid.rows[i].cells.length; j++) { // loops through each cell in a row
+            let cell = grid.rows[i].cells[j];
+            cell.style.backgroundColor = colorSelected; // changes the color of every cell
+        }
+    }
 }
 
 // Clear all cells
